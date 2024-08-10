@@ -493,29 +493,6 @@ class _DangNhapWidgetState extends State<DangNhapWidget> {
                                                     ).then((value) =>
                                                         safeSetState(() {}));
                                                   } else {
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      SnackBar(
-                                                        content: Text(
-                                                          (_model.authenticationResult
-                                                                      ?.jsonBody ??
-                                                                  '')
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primaryText,
-                                                          ),
-                                                        ),
-                                                        duration: const Duration(
-                                                            milliseconds: 4000),
-                                                        backgroundColor:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .secondary,
-                                                      ),
-                                                    );
                                                     FFAppState().userName = _model
                                                         .userNameTextController
                                                         .text;
