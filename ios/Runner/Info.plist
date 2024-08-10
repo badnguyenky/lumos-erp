@@ -43,11 +43,13 @@
 	<true/>
 
 	<key>NSFaceIDUsageDescription</key>
-    <string>This app requires permissions to perform a biometric verification.</string>
+    <string>Vui lòng cho phép sinh trắc học để đăng nhập</string>
 	<key>NSCameraUsageDescription</key>
     <string>Cho phép sử dụng máy ảnh để quét mã QR</string>
 	<key>NSCameraUsageDescription</key>
     <string>Vui lòng cho phép máy ảnh để quét mã QR</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>Vui lòng cho phép truy cập vào thư viện ảnh</string>
 
 
 	<key>UILaunchStoryboardName</key>

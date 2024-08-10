@@ -1,9 +1,7 @@
 import '/backend/schema/structs/index.dart';
-import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'kiem_ke_model.dart';
 export 'kiem_ke_model.dart';
 
@@ -19,11 +17,8 @@ class KiemKeWidget extends StatefulWidget {
   State<KiemKeWidget> createState() => _KiemKeWidgetState();
 }
 
-class _KiemKeWidgetState extends State<KiemKeWidget>
-    with TickerProviderStateMixin {
+class _KiemKeWidgetState extends State<KiemKeWidget> {
   late KiemKeModel _model;
-
-  final animationsMap = <String, AnimationInfo>{};
 
   @override
   void setState(VoidCallback callback) {
@@ -35,28 +30,6 @@ class _KiemKeWidgetState extends State<KiemKeWidget>
   void initState() {
     super.initState();
     _model = createModel(context, () => KiemKeModel());
-
-    animationsMap.addAll({
-      'containerOnPageLoadAnimation': AnimationInfo(
-        trigger: AnimationTrigger.onPageLoad,
-        effectsBuilder: () => [
-          FadeEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 400.0.ms,
-            begin: 0.0,
-            end: 1.0,
-          ),
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 400.0.ms,
-            begin: const Offset(0.0, 10.0),
-            end: const Offset(0.0, 0.0),
-          ),
-        ],
-      ),
-    });
   }
 
   @override
@@ -190,6 +163,6 @@ class _KiemKeWidgetState extends State<KiemKeWidget>
           ].divide(const SizedBox(height: 12.0)),
         ),
       ),
-    ).animateOnPageLoad(animationsMap['containerOnPageLoadAnimation']!);
+    );
   }
 }

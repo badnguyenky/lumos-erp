@@ -35,6 +35,9 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
   @override
   Widget build(BuildContext context) {
     return AiBarcodeScanner(
+      hideSheetDragHandler: true,
+      hideGalleryButton: true,
+      sheetTitle: "Quét QR",
       onDetect: (BarcodeCapture capture) {
         final String? scannedValue = capture.barcodes.first.rawValue;
         if (widget.canScan == true) {
