@@ -37,6 +37,7 @@ class _ChonNhomQuyenWidgetState extends State<ChonNhomQuyenWidget>
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
+      Function() navigate = () {};
       if (currentAuthTokenExpiration! <= getCurrentTimestamp) {
         await showModalBottomSheet(
           isScrollControlled: true,
@@ -57,18 +58,6 @@ class _ChonNhomQuyenWidgetState extends State<ChonNhomQuyenWidget>
 
         return;
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              FFAppState().isLoginByBiometric.toString(),
-              style: TextStyle(
-                color: FlutterFlowTheme.of(context).primaryText,
-              ),
-            ),
-            duration: const Duration(milliseconds: 4000),
-            backgroundColor: FlutterFlowTheme.of(context).secondary,
-          ),
-        );
         if (FFAppState().isLoginByBiometric) {
           FFAppState().isLoginByBiometric = false;
           setState(() {});
@@ -85,36 +74,42 @@ class _ChonNhomQuyenWidgetState extends State<ChonNhomQuyenWidget>
           }
 
           if (_model.biometric) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  'Xác minh  thành công!',
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Be Vietnam Pro',
-                        color: FlutterFlowTheme.of(context).info,
-                        letterSpacing: 0.0,
-                      ),
+            if (_model.isCancelBiometric) {
+              GoRouter.of(context).prepareAuthEvent();
+              await authManager.signOut();
+              GoRouter.of(context).clearRedirectLocation();
+
+              navigate =
+                  () => context.goNamedAuth('DangNhap', context.mounted);
+
+              navigate();
+              return;
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'Xác minh  thành công!',
+                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                          fontFamily: 'Be Vietnam Pro',
+                          color: FlutterFlowTheme.of(context).info,
+                          letterSpacing: 0.0,
+                        ),
+                  ),
+                  duration: const Duration(milliseconds: 2000),
+                  backgroundColor: FlutterFlowTheme.of(context).primary,
                 ),
-                duration: const Duration(milliseconds: 2000),
-                backgroundColor: FlutterFlowTheme.of(context).primary,
-              ),
-            );
+              );
+              return;
+            }
           } else {
             _model.isCancelBiometric = true;
             setState(() {});
-          }
-
-          if (_model.isCancelBiometric) {
-            GoRouter.of(context).prepareAuthEvent();
-            await authManager.signOut();
-            GoRouter.of(context).clearRedirectLocation();
-          } else {
             return;
           }
         }
       }
 
-      context.goNamedAuth('DangNhap', context.mounted);
+      navigate();
     });
 
     animationsMap.addAll({

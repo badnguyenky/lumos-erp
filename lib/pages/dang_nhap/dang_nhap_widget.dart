@@ -612,6 +612,7 @@ class _DangNhapWidgetState extends State<DangNhapWidget> {
                                                             ''))
                                                 ? null
                                                 : () async {
+                                                    var shouldSetState = false;
                                                     Function() navigate =
                                                         () {};
                                                     final localAuth =
@@ -629,6 +630,7 @@ class _DangNhapWidgetState extends State<DangNhapWidget> {
                                                       setState(() {});
                                                     }
 
+                                                    shouldSetState = true;
                                                     if (_model.biometric) {
                                                       _model.biometricAuthenticationResult =
                                                           await AuthenticationCall
@@ -642,6 +644,7 @@ class _DangNhapWidgetState extends State<DangNhapWidget> {
                                                                 .companyCode,
                                                       );
 
+                                                      shouldSetState = true;
                                                       if ((_model
                                                               .biometricAuthenticationResult
                                                               ?.succeeded ??
@@ -748,11 +751,45 @@ class _DangNhapWidgetState extends State<DangNhapWidget> {
                                                             safeSetState(
                                                                 () {}));
                                                       }
+                                                    } else {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                          content: Text(
+                                                            'Thiết bị không hỗ trợ sinh trắc học!',
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Be Vietnam Pro',
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .info,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
+                                                          ),
+                                                          duration: const Duration(
+                                                              milliseconds:
+                                                                  2000),
+                                                          backgroundColor:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .primary,
+                                                        ),
+                                                      );
+                                                      if (shouldSetState) {
+                                                        setState(() {});
+                                                      }
+                                                      return;
                                                     }
 
                                                     navigate();
-
-                                                    setState(() {});
+                                                    if (shouldSetState) {
+                                                      setState(() {});
+                                                    }
                                                   },
                                           ),
                                         ].divide(const SizedBox(width: 30.0)),
