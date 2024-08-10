@@ -10,6 +10,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'chon_nhom_quyen_model.dart';
 export 'chon_nhom_quyen_model.dart';
@@ -35,7 +36,86 @@ class _ChonNhomQuyenWidgetState extends State<ChonNhomQuyenWidget>
     _model = createModel(context, () => ChonNhomQuyenModel());
 
     // On page load action.
-    SchedulerBinding.instance.addPostFrameCallback((_) async {});
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      if (currentAuthTokenExpiration! <= getCurrentTimestamp) {
+        await showModalBottomSheet(
+          isScrollControlled: true,
+          backgroundColor: Colors.transparent,
+          barrierColor: const Color(0x000000B2),
+          enableDrag: false,
+          context: context,
+          builder: (context) {
+            return GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: Padding(
+                padding: MediaQuery.viewInsetsOf(context),
+                child: const TokenExpireWidget(),
+              ),
+            );
+          },
+        ).then((value) => safeSetState(() {}));
+
+        return;
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              FFAppState().isLoginByBiometric.toString(),
+              style: TextStyle(
+                color: FlutterFlowTheme.of(context).primaryText,
+              ),
+            ),
+            duration: const Duration(milliseconds: 4000),
+            backgroundColor: FlutterFlowTheme.of(context).secondary,
+          ),
+        );
+        if (FFAppState().isLoginByBiometric) {
+          FFAppState().isLoginByBiometric = false;
+          setState(() {});
+          return;
+        } else {
+          final localAuth = LocalAuthentication();
+          bool isBiometricSupported = await localAuth.isDeviceSupported();
+
+          if (isBiometricSupported) {
+            _model.biometric = await localAuth.authenticate(
+                localizedReason:
+                    'Vui lòng xác minh để tiếp tục sử dụng ứng dụng!');
+            setState(() {});
+          }
+
+          if (_model.biometric) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  'Xác minh  thành công!',
+                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                        fontFamily: 'Be Vietnam Pro',
+                        color: FlutterFlowTheme.of(context).info,
+                        letterSpacing: 0.0,
+                      ),
+                ),
+                duration: const Duration(milliseconds: 2000),
+                backgroundColor: FlutterFlowTheme.of(context).primary,
+              ),
+            );
+          } else {
+            _model.isCancelBiometric = true;
+            setState(() {});
+          }
+
+          if (_model.isCancelBiometric) {
+            GoRouter.of(context).prepareAuthEvent();
+            await authManager.signOut();
+            GoRouter.of(context).clearRedirectLocation();
+          } else {
+            return;
+          }
+        }
+      }
+
+      context.goNamedAuth('DangNhap', context.mounted);
+    });
 
     animationsMap.addAll({
       'viTriOnPageLoadAnimation': AnimationInfo(

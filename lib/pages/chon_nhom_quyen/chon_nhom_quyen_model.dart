@@ -11,6 +11,7 @@ class ChonNhomQuyenModel extends FlutterFlowModel<ChonNhomQuyenWidget> {
 
   ///  State fields for stateful widgets in this page.
 
+  bool biometric = false;
   Completer<ApiCallResponse>? apiRequestCompleter;
 
   @override
