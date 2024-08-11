@@ -8,3 +8,4 @@ export '/pages/chon_kiem_ke/chon_kiem_ke_widget.dart' show ChonKiemKeWidget;
 export '/pages/chi_tiet_kiem_ke/chi_tiet_kiem_ke_widget.dart'
     show ChiTietKiemKeWidget;
 export '/pages/scan_q_r/scan_q_r_widget.dart' show ScanQRWidget;
+export '/pages/nguoi_dung/nguoi_dung_widget.dart' show NguoiDungWidget;

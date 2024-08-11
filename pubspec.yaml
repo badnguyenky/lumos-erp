@@ -160,6 +160,9 @@ flutter:
     - family: Empty
       fonts:
         - asset: assets/fonts/empty.ttf
+    - family: Navbar
+      fonts:
+        - asset: assets/fonts/navbar.ttf
 
   
   # An image asset can refer to one or more resolution-specific "variants", see

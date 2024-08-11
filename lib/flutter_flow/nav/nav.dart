@@ -8,6 +8,7 @@ import '/backend/schema/structs/index.dart';
 import '/auth/custom_auth/custom_auth_user_provider.dart';
 
 import '/index.dart';
+import '/main.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
@@ -74,19 +75,20 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? const ChonNhomQuyenWidget() : const DangNhapWidget(),
+          appStateNotifier.loggedIn ? const NavBarPage() : const DangNhapWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) => appStateNotifier.loggedIn
-              ? const ChonNhomQuyenWidget()
-              : const DangNhapWidget(),
+          builder: (context, _) =>
+              appStateNotifier.loggedIn ? const NavBarPage() : const DangNhapWidget(),
         ),
         FFRoute(
           name: 'ChonNhomQuyen',
           path: '/chonNhomQuyen',
-          builder: (context, params) => const ChonNhomQuyenWidget(),
+          builder: (context, params) => params.isEmpty
+              ? const NavBarPage(initialPage: 'ChonNhomQuyen')
+              : const ChonNhomQuyenWidget(),
         ),
         FFRoute(
           name: 'DangNhap',
@@ -188,6 +190,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ParamType.String,
             ),
           ),
+        ),
+        FFRoute(
+          name: 'NguoiDung',
+          path: '/nguoiDung',
+          builder: (context, params) => params.isEmpty
+              ? const NavBarPage(initialPage: 'NguoiDung')
+              : const NguoiDungWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

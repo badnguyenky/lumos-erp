@@ -8,6 +8,7 @@ class FFIcons {
   static const String _chucnangFamily = 'Chucnang';
   static const String _searchFamily = 'Search';
   static const String _emptyFamily = 'Empty';
+  static const String _navbarFamily = 'Navbar';
 
   // biometric
   static const IconData ktypefaceId =
@@ -32,4 +33,7 @@ class FFIcons {
 
   // empty
   static const IconData kempty = IconData(0xe900, fontFamily: _emptyFamily);
+
+  // navbar
+  static const IconData khome = IconData(0xe900, fontFamily: _navbarFamily);
 }

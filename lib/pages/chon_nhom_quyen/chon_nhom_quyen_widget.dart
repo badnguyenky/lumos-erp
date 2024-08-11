@@ -155,7 +155,7 @@ class _ChonNhomQuyenWidgetState extends State<ChonNhomQuyenWidget>
         body: SafeArea(
           top: true,
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
             child: FutureBuilder<ApiCallResponse>(
               future:
                   (_model.apiRequestCompleter ??= Completer<ApiCallResponse>()
@@ -196,7 +196,12 @@ class _ChonNhomQuyenWidgetState extends State<ChonNhomQuyenWidget>
                         await _model.waitForApiRequestCompleted();
                       },
                       child: ListView.separated(
-                        padding: EdgeInsets.zero,
+                        padding: const EdgeInsets.fromLTRB(
+                          0,
+                          16.0,
+                          0,
+                          16.0,
+                        ),
                         scrollDirection: Axis.vertical,
                         itemCount: listViTri.length,
                         separatorBuilder: (_, __) => const SizedBox(height: 16.0),
